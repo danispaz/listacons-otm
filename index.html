@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="notebooks">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Busca com Lupa</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Calibri Light', sans-serif;
+      background: #fff;
+           margin: 0;
+  padding: 0;
+  height: 100%;
+      overflow: hidden; /* <- ESSENCIAL pra sumir a rolagem do body */
+    }
+
+    #notebooks {
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f4f4;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+
+.fixed-filters {
+  position: sticky;
+  top: 0;
+  background-color: #f4f4f4;
+  padding: 16px 0 12px;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+
+    .search-container {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .search-container input {
+      width: 100%;
+      height: 44px;
+      padding: 10px 12px 10px 42px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 14px;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #0000008a;
+      pointer-events: none;
+    }
+
+    select {
+      width: 100%;
+      height: 36px;
+      padding: 5px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      border-radius: 4px;
+    }
+
+    .product-count {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      width: 100%;
+    }
+
+    li {
+      background: white;
+      padding: 12px 15px;
+      border-left: 4px solid #3fccb9;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    strong {
+      display: block;
+      color: #444;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 5px;
+    }
+
+    .title-row strong {
+      font-weight: bold;
+      font-size: 16px;
+      color: #444;
+      margin: 0;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .code {
+      font-size: 12px;
+      color: #888;
+      margin-left: 10px;
+      flex-shrink: 0;
+    }
+
+    .material-symbols-outlined {
+  vertical-align: middle;
+  font-size: 20px;
+  margin-right: 6px;
+  color: #0000008a
+}
+
+
+    /* Garante que o layout use toda a tela no mobile */
+    @media (max-width: 600px) {
+  html, body {
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+  }
+
+  #notebooks {
+    padding: 16px 12px;
+  }
+
+  .fixed-filters {
+    padding: 16px 0 10px;
+  }
+
+  .search-container input {
+    width: 100%;
+    font-size: 18px;
+    height: 52px;
+    padding: 10px 12px 10px 42px;
+    border: 1px solid #ccc;
+  }
+
+  select {
+    width: 100%;
+    font-size: 18px;
+    height: 48px;
+    margin-bottom: 16px;
+    padding: 8px 10px;
+  }
+
+  .product-count {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  li {
+    padding: 20px 16px;
+  }
+
+  .title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .title-row strong {
+    font-size: 20px;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  .code {
+    font-size: 17px;
+    color: #666;
+    margin-left: 0;
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+}
+
+
+
+  </style>
+</head>
+
+<body ng-controller="NotebookListCtrl">
+  <div id="notebooks">
+    
+    <div class="fixed-filters">
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input
+          type="text"
+          id="query"
+          ng-model="query"
+          placeholder="Pesquisar produtos…"
+          autocomplete="off"
+        />
+      </div>
+
+      <select ng-model="orderList">
+        <option value="name">Ordenar por Nome (A–Z)</option>
+        <option value="-age">Ordenar por Mais Recentes</option>
+        <option value="age">Ordenar por Mais Antigos</option>
+      </select>
+
+      <div class="product-count">
+        <span class="material-symbols-outlined">package_2</span>
+        Produtos: {{(notebooks | filter:query).length}}
+      </div>
+      
+
+    </div> <!-- Fim da fixed-filters -->
+
+    <div class="product-list">
+      <ul>
+        <li ng-repeat="notebook in notebooks | filter:query | orderBy: orderList">
+          <div class="title-row">
+            <strong>{{notebook.name}}</strong>
+            <span class="code">{{notebook.age}}</span>
+          </div>
+          <p>{{notebook.procesor}}</p>
+        </li>
+      </ul>
+    </div>
+    
+
+
+  <script>
+    var notebooks = angular.module('notebooks', []);
+
+    notebooks.controller('NotebookListCtrl', function ($scope) {
+      $scope.notebooks = [
+        {
+          name: "Avaliação de Maturidade de Gestão",
+          procesor: "Analisa o estágio atual da gestão da empresa com base em critérios estruturados, identificando pontos fortes, fragilidades e o nível de maturidade em diferentes áreas do negócio. O resultado serve como base para direcionar as ações da consultoria e auxiliar o cliente na definição de prioridades e melhorias. Garante um diagnóstico claro que ajuda a empresa a evoluir na gestão e tomar decisões mais estratégicas.",
+          age: "FIN012"
+        },
+        {
+          name: "Diagnóstico Empresarial",
+          procesor: "Realiza uma análise completa da empresa, dividida por áreas como finanças, processos, pessoas, governança e outras, identificando pontos fortes, falhas e oportunidades de melhoria. Ajuda a direcionar os esforços da gestão, otimizar recursos e corrigir práticas inadequadas que possam prejudicar os resultados. Garante uma visão clara da situação atual do negócio e serve como base para decisões mais assertivas.",
+          age: "FIN009"
+        },
+        {
+          name: "BPO - Terceirização de processos financeiros",
+          procesor: "Assume as rotinas financeiras da empresa, como lançamentos, conciliações, contas a pagar e a receber, e gestão do fluxo de caixa. Reduz a sobrecarga da equipe interna, melhora a qualidade das informações financeiras e garante maior controle dos processos. Gera economia com estrutura interna, aumenta a eficiência operacional e contribui para uma gestão financeira mais segura e estratégica.",
+          age: "FIN010"
+        },
+
+        {
+          name: "Captação, Renegociação e Gestão de Recursos",
+          procesor: "Auxilia a empresa na captação de recursos, revisão e renegociação de dívidas, buscando reduzir custos financeiros, melhorar o fluxo de caixa e realocar dívidas de forma estratégica. Ideal para negócios que enfrentam falta de capital de giro, parcelas desajustadas ou necessidade de investir. Garante uma gestão financeira mais equilibrada e sustentável, contribuindo para a saúde econômica da empresa no curto e longo prazo.",
+          age: "ADV011"
+        },
+
+        {
+          name: "Planejamento Orçamentário e Fluxo de Caixa",
+          procesor: "Organiza e projeta as receitas, despesas e movimentações financeiras da empresa, oferecendo controle, previsibilidade e apoio à tomada de decisões. Ajuda a equilibrar as finanças, planejar investimentos, limitar gastos e alinhar o uso dos recursos às metas do negócio. Garante maior segurança nas decisões financeiras e contribui para a sustentabilidade da empresa no médio e longo prazo.",
+          age: "FIN002",
+        },
+
+        {
+          name: "Análise de Viabilidade Econômico-Financeira",
+          procesor: "Avalia se um projeto, investimento ou nova operação é financeiramente viável, considerando custos, receitas previstas, riscos e cenário de mercado. Ajuda a entender o retorno esperado sobre o capital investido, identificando possíveis ameaças e oportunidades. Garante decisões mais seguras, evitando perdas e apoiando a alocação eficiente dos recursos.",
+          age: "FIN008",
+        },
+
+        {
+          name: "Valuation",
+          procesor: "Determina o valor econômico de uma empresa ou ativo com base no desempenho financeiro, cenário de mercado e potencial de crescimento. É essencial para processos de reorganização societária, fusões, aquisições, venda de negócios ou captação de investimentos. Fornece uma base sólida para negociações e decisões estratégicas, ajudando a entender os riscos, identificar oportunidades e tomar decisões com mais segurança e embasamento.",
+          age: "M&A001",
+        },
+
+        {
+          name: "Gestão de resultados financeiros",
+          procesor: "Realiza o monitoramento contínuo das receitas, despesas, lucros e fluxo de caixa da empresa, por meio da terceirização da análise financeira. Identifica distorções, aponta oportunidades de melhoria e orienta ajustes necessários para aumentar a rentabilidade. Garante maior controle, transparência e segurança na gestão financeira, apoiando decisões mais assertivas e a sustentabilidade do negócio.",
+          age: "FIN007"
+        },
+
+        {
+          name: "Implantação de Processos Internos / BPM",
+          procesor: "Modela, padroniza e estrutura os processos internos da empresa com foco em eficiência, organização e alinhamento aos objetivos estratégicos. Ajuda a eliminar retrabalho, reduzir custos e aumentar a produtividade, criando um ambiente mais ágil, organizado e voltado para a melhoria contínua. Garante operações mais eficientes e sustentáveis, com visão clara das responsabilidades e etapas de cada área.",
+          age: "FIN001"
+        },
+
+        {
+          name: "Planejamento Estratégico",
+          procesor: "Define os objetivos, metas e ações que irão orientar a empresa no curto, médio e longo prazo, alinhando as decisões com sua visão de futuro. Ajuda a priorizar recursos, melhorar o posicionamento no mercado e tomar decisões mais embasadas. Garante clareza na direção do negócio, maior competitividade, crescimento sustentável e agilidade para se adaptar às mudanças e aproveitar novas oportunidades.",
+          age: "FIN006"
+        },
+
+        
+        {
+          name: "Consultoria Trabalhista",
+          procesor: "Oferece suporte especializado para orientar a empresa em questões relacionadas às relações de trabalho, garantindo o cumprimento da legislação e prevenindo riscos jurídicos. Auxilia na tomada de decisões, revisão de práticas internas e adequação de processos. Garante mais segurança nas rotinas trabalhistas, redução de passivos e economia com eventuais custos legais e operacionais.",
+          age: "FIN013"
+        },
+
+        {
+          name: "Método Funcional",
+          procesor: "Implanta um modelo de RH estratégico que alinha a gestão de pessoas aos objetivos e metas do negócio. Transforma o RH de uma área apenas operacional para uma área ativa na tomada de decisões, mais segura juridicamente e focada no crescimento da empresa. Garante maior engajamento da equipe, aumento da produtividade, fortalecimento da cultura organizacional e uma gestão de pessoas mais eficaz e alinhada aos resultados.",
+          age: "FIN011"
+        },
+
+        {
+          name: " Compliance Trabalhista e Previdenciária",
+          procesor: "Verifica se a empresa está cumprindo corretamente a legislação trabalhista e previdenciária, identificando falhas e inconformidades que possam gerar riscos legais. Ajuda a corrigir práticas inadequadas e prevenir multas, ações judiciais e prejuízos financeiros. Garante conformidade com as normas, segurança jurídica e proteção à imagem da empresa.",
+          age: "LAB002"
+        },
+
+        {
+          name: "Compensação / Restituição de Tributos Trabalhista e Previdenciária",
+          procesor: "Identifica créditos oriundos de tributos trabalhistas pagos de forma indevida ou a maior, e realiza os procedimentos necessários para sua recuperação ou compensação. Corrige distorções na apuração de encargos e contribuições, garantindo conformidade com a legislação. Gera economia financeira para a empresa e contribui para uma gestão tributária mais eficiente e segura.",
+          age: "LAB001"
+        },
+
+
+        {
+          name: "Consultoria  Previdenciária",
+          procesor: "Orienta a empresa na aplicação correta das normas trabalhistas e previdenciárias, com foco na conformidade legal, na redução de riscos e na melhoria da gestão da folha de pagamento e benefícios. Ajuda a evitar passivos, otimiza custos e garante mais segurança jurídica nas rotinas do departamento pessoal.",
+          age: "FIN014"
+        }      
+      ];
+      $scope.orderList = "name";
+    });
+  </script>
+</body>
+</html>
