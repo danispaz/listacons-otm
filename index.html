@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Busca com Lupa</title>
+<title>Busca com Lupa</title>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
@@ -202,11 +203,20 @@
     line-height: 1.6;
   }
 }
+.form-icon {
+  color: #888;
+  font-size: 18px;
+  transition: color 0.2s ease;
+}
 
+.form-icon:hover {
+  color: #0078d4;
+}
 
 
   </style>
 </head>
+
 
 <body ng-controller="NotebookListCtrl">
   <div id="notebooks">
@@ -242,13 +252,23 @@
         <li ng-repeat="notebook in notebooks | filter:query | orderBy: orderList">
           <div class="title-row">
             <strong>{{notebook.name}}</strong>
-            <span class="code">{{notebook.age}}</span>
+        
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="code">{{notebook.age}}</span>
+              <a 
+                ng-href="{{notebook.url}}" 
+                target="_blank" 
+                class="form-icon" 
+                title="Ver página do produto">
+                <i class="fas fa-file-alt"></i>
+              </a>
+            </div>
           </div>
           <p>{{notebook.procesor}}</p>
         </li>
+     
       </ul>
     </div>
-    
 
 
   <script>
@@ -259,91 +279,106 @@
         {
           name: "Avaliação de Maturidade de Gestão",
           procesor: "Analisa o estágio atual da gestão da empresa com base em critérios estruturados, identificando pontos fortes, fragilidades e o nível de maturidade em diferentes áreas do negócio. O resultado serve como base para direcionar as ações da consultoria e auxiliar o cliente na definição de prioridades e melhorias. Garante um diagnóstico claro que ajuda a empresa a evoluir na gestão e tomar decisões mais estratégicas.",
-          age: "FIN012"
+          age: "FIN012",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Avalia%C3%A7%C3%A3o-de-Maturidade-de-Gest%C3%A3o.aspx"
         },
         {
           name: "Diagnóstico Empresarial",
           procesor: "Realiza uma análise completa da empresa, dividida por áreas como finanças, processos, pessoas, governança e outras, identificando pontos fortes, falhas e oportunidades de melhoria. Ajuda a direcionar os esforços da gestão, otimizar recursos e corrigir práticas inadequadas que possam prejudicar os resultados. Garante uma visão clara da situação atual do negócio e serve como base para decisões mais assertivas.",
-          age: "FIN009"
+          age: "FIN009",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Diagn%C3%B3stico-Empresarial.aspx"
         },
         {
           name: "BPO - Terceirização de processos financeiros",
           procesor: "Assume as rotinas financeiras da empresa, como lançamentos, conciliações, contas a pagar e a receber, e gestão do fluxo de caixa. Reduz a sobrecarga da equipe interna, melhora a qualidade das informações financeiras e garante maior controle dos processos. Gera economia com estrutura interna, aumenta a eficiência operacional e contribui para uma gestão financeira mais segura e estratégica.",
-          age: "FIN010"
+          age: "FIN010",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/BPO---Terceiriza%C3%A7%C3%A3o-de-processos-financeiros.aspx"
         },
 
         {
           name: "Captação, Renegociação e Gestão de Recursos",
           procesor: "Auxilia a empresa na captação de recursos, revisão e renegociação de dívidas, buscando reduzir custos financeiros, melhorar o fluxo de caixa e realocar dívidas de forma estratégica. Ideal para negócios que enfrentam falta de capital de giro, parcelas desajustadas ou necessidade de investir. Garante uma gestão financeira mais equilibrada e sustentável, contribuindo para a saúde econômica da empresa no curto e longo prazo.",
-          age: "ADV011"
+          age: "ADV011",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Capta%C3%A7%C3%A3o,-Renegocia%C3%A7%C3%A3o-e-Gest%C3%A3o-de-Recursos.aspx"
         },
 
         {
           name: "Planejamento Orçamentário e Fluxo de Caixa",
           procesor: "Organiza e projeta as receitas, despesas e movimentações financeiras da empresa, oferecendo controle, previsibilidade e apoio à tomada de decisões. Ajuda a equilibrar as finanças, planejar investimentos, limitar gastos e alinhar o uso dos recursos às metas do negócio. Garante maior segurança nas decisões financeiras e contribui para a sustentabilidade da empresa no médio e longo prazo.",
           age: "FIN002",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Planejamento-Or%C3%A7ament%C3%A1rio-e-Fluxo-de-Caixa.aspx"
         },
 
         {
           name: "Análise de Viabilidade Econômico-Financeira",
           procesor: "Avalia se um projeto, investimento ou nova operação é financeiramente viável, considerando custos, receitas previstas, riscos e cenário de mercado. Ajuda a entender o retorno esperado sobre o capital investido, identificando possíveis ameaças e oportunidades. Garante decisões mais seguras, evitando perdas e apoiando a alocação eficiente dos recursos.",
           age: "FIN008",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/An%C3%A1lise-de-Viabilidade-Econ%C3%B4mico-Financeira.aspx"
         },
 
         {
           name: "Valuation",
           procesor: "Determina o valor econômico de uma empresa ou ativo com base no desempenho financeiro, cenário de mercado e potencial de crescimento. É essencial para processos de reorganização societária, fusões, aquisições, venda de negócios ou captação de investimentos. Fornece uma base sólida para negociações e decisões estratégicas, ajudando a entender os riscos, identificar oportunidades e tomar decisões com mais segurança e embasamento.",
           age: "M&A001",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Valuation.aspx"
         },
 
         {
           name: "Gestão de resultados financeiros",
           procesor: "Realiza o monitoramento contínuo das receitas, despesas, lucros e fluxo de caixa da empresa, por meio da terceirização da análise financeira. Identifica distorções, aponta oportunidades de melhoria e orienta ajustes necessários para aumentar a rentabilidade. Garante maior controle, transparência e segurança na gestão financeira, apoiando decisões mais assertivas e a sustentabilidade do negócio.",
-          age: "FIN007"
+          age: "FIN007",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Gest%C3%A3o-de-resultados-financeiros.aspx"
         },
 
         {
           name: "Implantação de Processos Internos / BPM",
           procesor: "Modela, padroniza e estrutura os processos internos da empresa com foco em eficiência, organização e alinhamento aos objetivos estratégicos. Ajuda a eliminar retrabalho, reduzir custos e aumentar a produtividade, criando um ambiente mais ágil, organizado e voltado para a melhoria contínua. Garante operações mais eficientes e sustentáveis, com visão clara das responsabilidades e etapas de cada área.",
-          age: "FIN001"
+          age: "FIN001",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Implanta%C3%A7%C3%A3o-de-Processos-Internos---BPM.aspx"
         },
 
         {
           name: "Planejamento Estratégico",
           procesor: "Define os objetivos, metas e ações que irão orientar a empresa no curto, médio e longo prazo, alinhando as decisões com sua visão de futuro. Ajuda a priorizar recursos, melhorar o posicionamento no mercado e tomar decisões mais embasadas. Garante clareza na direção do negócio, maior competitividade, crescimento sustentável e agilidade para se adaptar às mudanças e aproveitar novas oportunidades.",
-          age: "FIN006"
+          age: "FIN006",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Planejamento-Estrat%C3%A9gico.aspx"
         },
 
         
         {
           name: "Consultoria Trabalhista",
           procesor: "Oferece suporte especializado para orientar a empresa em questões relacionadas às relações de trabalho, garantindo o cumprimento da legislação e prevenindo riscos jurídicos. Auxilia na tomada de decisões, revisão de práticas internas e adequação de processos. Garante mais segurança nas rotinas trabalhistas, redução de passivos e economia com eventuais custos legais e operacionais.",
-          age: "FIN013"
+          age: "FIN013",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Consultoria-Trabalhista.aspx"
         },
 
         {
           name: "Método Funcional",
           procesor: "Implanta um modelo de RH estratégico que alinha a gestão de pessoas aos objetivos e metas do negócio. Transforma o RH de uma área apenas operacional para uma área ativa na tomada de decisões, mais segura juridicamente e focada no crescimento da empresa. Garante maior engajamento da equipe, aumento da produtividade, fortalecimento da cultura organizacional e uma gestão de pessoas mais eficaz e alinhada aos resultados.",
-          age: "FIN011"
+          age: "FIN011",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/M%C3%A9todo-Funcional.aspx"
         },
 
         {
           name: " Compliance Trabalhista e Previdenciária",
           procesor: "Verifica se a empresa está cumprindo corretamente a legislação trabalhista e previdenciária, identificando falhas e inconformidades que possam gerar riscos legais. Ajuda a corrigir práticas inadequadas e prevenir multas, ações judiciais e prejuízos financeiros. Garante conformidade com as normas, segurança jurídica e proteção à imagem da empresa.",
-          age: "LAB002"
+          age: "LAB002",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Compliance-Trabalhista-e-Previdenci%C3%A1ria.aspx"
         },
 
         {
           name: "Compensação / Restituição de Tributos Trabalhista e Previdenciária",
           procesor: "Identifica créditos oriundos de tributos trabalhistas pagos de forma indevida ou a maior, e realiza os procedimentos necessários para sua recuperação ou compensação. Corrige distorções na apuração de encargos e contribuições, garantindo conformidade com a legislação. Gera economia financeira para a empresa e contribui para uma gestão tributária mais eficiente e segura.",
-          age: "LAB001"
+          age: "LAB001",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Compensa%C3%A7%C3%A3o---Restitui%C3%A7%C3%A3o-de-Tributos-Trabalhista-e-Previdenci%C3%A1ria.aspx"
         },
 
 
         {
           name: "Consultoria  Previdenciária",
           procesor: "Orienta a empresa na aplicação correta das normas trabalhistas e previdenciárias, com foco na conformidade legal, na redução de riscos e na melhoria da gestão da folha de pagamento e benefícios. Ajuda a evitar passivos, otimiza custos e garante mais segurança jurídica nas rotinas do departamento pessoal.",
-          age: "FIN014"
+          age: "FIN014",
+          url:"https://funcionalx.sharepoint.com/sites/produtos/SitePages/Produtos%20CONS/Consultoria-Previdenci%C3%A1ria.aspx"
         }      
       ];
       $scope.orderList = "name";
